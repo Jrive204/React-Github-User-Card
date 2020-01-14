@@ -5,7 +5,8 @@ import "./App.css";
 
 class App extends React.Component {
   state = {
-    user: []
+    user: [],
+    followers: []
   };
 
   componentDidMount() {
@@ -18,15 +19,30 @@ class App extends React.Component {
         });
       })
       .catch(err => console.log(err));
+    axios
+      .get("https://api.github.com/users/Jrive204/followers")
+      .then(res => {
+        console.log(res.data, `followers`);
+        this.setState({
+          followers: res.data
+        });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
     console.log(this.state.user, `user`);
     return (
       <div className='App'>
-        <h1>API DATA</h1>
-        <h4>balling</h4>
-        <UserCard user={this.state.user} />
+        <h1
+          style={{
+            width: "100%",
+            background: `#24292e`,
+            color: "white"
+          }}>
+          API DATA
+        </h1>
+        <UserCard user={this.state.user} followers={this.state.followers} />
       </div>
     );
   }
